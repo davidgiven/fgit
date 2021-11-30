@@ -1,0 +1,20 @@
+#!/bin/sh
+set -e
+
+cd .git
+git config --local remote.origin.mirror true
+git fetch
+git fast-export \
+	--import-marks=../.git.marks \
+    --export-marks=../.git.marks.new \
+	--all | \
+	fossil import --git \
+		--incremental \
+		--import-marks ../.fossil.marks \
+		--export-marks ../.fossil.marks.new \
+		../.repo.fossil
+cd ..
+test -f .fossil.marks.new && mv .fossil.marks.new .fossil.marks
+test -f .git.marks.new && mv .git.marks.new .git.marks
+fossil update
+

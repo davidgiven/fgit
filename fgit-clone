@@ -1,0 +1,14 @@
+#!/bin/sh
+set -e
+
+mkdir $1
+cd $1
+git clone --mirror $2 .git
+(cd .git && git fast-export --all --export-marks=../.git.marks) | \
+	fossil import --git --export-marks=.fossil.marks .repo.fossil
+fossil settings -R .repo.fossil allow-symlinks on
+fossil settings -R .repo.fossil editor vim
+fossil settings -R .repo.fossil mv-rm-files hard
+fossil settings -R .repo.fossil autosync off
+fossil open .repo.fossil
+
