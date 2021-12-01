@@ -1,9 +1,21 @@
 #!/bin/sh
 set -e
 
-mkdir $1
-cd $1
-git clone --mirror $2 .git
+URL=$1
+DIR=$2
+
+if [ "$URL" = "" ]; then
+	echo "You must specify a git URL to clone."
+	exit 1
+fi
+if [ "$DIR" = "" ]; then
+	DIR=${URL##*/}
+	DIR=${DIR%.git}
+fi
+
+mkdir $DIR
+cd $DIR
+git clone --mirror $URL .git
 (cd .git && git fast-export --all --export-marks=../.git.marks) | \
 	fossil import --git --export-marks=.fossil.marks .repo.fossil
 fossil settings -R .repo.fossil allow-symlinks on
