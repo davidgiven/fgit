@@ -14,7 +14,7 @@ How?
 The three files are simple Posix sh (not bash) shell scripts. Copy them onto
 your path and you're good to go.
 
-  - `fgit-clone` <url> [<directory>]
+  - `fgit-clone` \<url> [\<directory>]
 
 	Clones a git repository locally to the specified directory. You end up with
 	an open Fossil repository. The secret state needed to make things work are
@@ -26,7 +26,7 @@ your path and you're good to go.
 	(Must be run from the root of an fgit repo) Pulls upstream changes from all
 	branches to the current repository.
 
-  - `fgit-push` [<branch>]
+  - `fgit-push` [\<branch>]
 
 	(Must be run from the root of an fgit repo) Pushes local changes to the
 	default upstream repository. If no branch is specified, the current branch
