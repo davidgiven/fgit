@@ -1,6 +1,11 @@
 #!/bin/sh
 set -e
 
+BRANCH=$1
+if [ "$BRANCH" = "" ]; then
+	BRANCH=$(fossil branch current)
+fi
+
 fossil export --git \
 	--import-marks .fossil.marks \
 	--export-marks .fossil.marks.new \
@@ -12,5 +17,5 @@ test -f .fossil.marks.new && mv .fossil.marks.new .fossil.marks
 test -f .git.marks.new && mv .git.marks.new .git.marks
 cd .git
 git config --local remote.origin.mirror false
-git push -u origin $1
+git push -u origin $BRANCH
 
